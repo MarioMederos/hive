@@ -23,9 +23,9 @@ class BackendManager implements BackendManagerInterface {
     final databaseName = collection ?? name;
     final objectStoreName = collection == null ? 'box' : name;
 
-    var db =
-        await indexedDB!.open(databaseName, version: 1, onUpgradeNeeded: (e) {
-      var db = e.target as Database;
+    var db = await indexedDB!.open(databaseName, version: 1,
+        onUpgradeNeeded: (VersionChangeEvent e) {
+      var db = e.database;
       if (!(db.objectStoreNames).contains(objectStoreName)) {
         db.createObjectStore(objectStoreName);
       }
